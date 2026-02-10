@@ -187,7 +187,7 @@ export default function UsersTable({
 	return (
 		<>
 			{facultyData.length === 0 ? (
-				<Loading message="faculties data" />
+				<Loading message="faculties" />
 			) : (
 				<div className="space-y-4 mt-5">
 					{/* Search and Filters */}
@@ -453,9 +453,7 @@ export default function UsersTable({
 												<TableCell>{user.name}</TableCell>
 											)}
 											{visibleColumns.has("email") && (
-												<TableCell>
-													{user.email}
-												</TableCell>
+												<TableCell>{user.email}</TableCell>
 											)}
 											{visibleColumns.has("role") && (
 												<TableCell className="hidden">

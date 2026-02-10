@@ -60,7 +60,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 		},
 	];
 
-	const facultyTabs = [
+	const supervisorTabs = [
 		{
 			title: "Dashboard",
 			url: "/dashboard",
@@ -141,7 +141,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
 	const tabs = {
 		IC: [...icTabs],
-		Faculty: [...facultyTabs],
+		Faculty: [...supervisorTabs],
 		Student: [...studentTabs],
 		StudentAffairs: [...studentAffairTabs],
 	};

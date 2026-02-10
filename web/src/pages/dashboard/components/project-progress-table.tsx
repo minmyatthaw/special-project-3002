@@ -126,8 +126,14 @@ function MemberBadges({ members }: { members: string[] }) {
 export default function ProjectProgressTable() {
 	return (
 		<div className="max-w-7xl mx-auto">
-			<h1 className="text-2xl font-bold mb-6">Projects Progress</h1>
-			<div className="rounded-lg border bg-card">
+			<h3 className="text-xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100">
+				Projects Progress
+			</h3>
+			<p className="text-sm text-neutral-500">
+				Overview of all projects completion status
+			</p>
+
+			<div className="rounded-lg border mt-5 bg-card">
 				<Table>
 					<TableHeader>
 						<TableRow className="bg-muted/50">

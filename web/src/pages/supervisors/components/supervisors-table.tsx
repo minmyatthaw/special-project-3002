@@ -26,9 +26,9 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router";
 
 export default function SupervisorsTable({
-	supervisorData,
+	supervisors,
 }: {
-	supervisorData: SupervisorData[];
+	supervisors: SupervisorData[];
 }) {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [currentPage, setCurrentPage] = useState(1);
@@ -40,7 +40,7 @@ export default function SupervisorsTable({
 	const itemsPerPage = 10;
 
 	const filteredUsers = useMemo(() => {
-		const filtered = supervisorData.filter((user) => {
+		const filtered = supervisors.filter((user) => {
 			const matchesSearch =
 				user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
 				user.email.toLowerCase().includes(searchTerm.toLowerCase());
@@ -63,7 +63,7 @@ export default function SupervisorsTable({
 		}
 
 		return filtered;
-	}, [supervisorData, searchTerm, sortColumn, sortDirection]);
+	}, [supervisors, searchTerm, sortColumn, sortDirection]);
 
 	const paginatedSupervisor = useMemo(() => {
 		const start = (currentPage - 1) * itemsPerPage;
@@ -93,7 +93,7 @@ export default function SupervisorsTable({
 
 	return (
 		<>
-			{supervisorData.length === 0 ? (
+			{supervisors.length === 0 ? (
 				<Loading message="supervisors" />
 			) : (
 				<div className="space-y-4 mt-5">

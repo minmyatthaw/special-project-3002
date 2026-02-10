@@ -4,6 +4,7 @@ import {
 	IconTrendingUp,
 } from "@tabler/icons-react";
 
+import api from "@/api/api";
 import {
 	Card,
 	CardDescription,
@@ -12,10 +13,19 @@ import {
 } from "@/components/ui/card";
 import type { StudentDashboardCard } from "@/types/student";
 import { BarChart3 } from "lucide-react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
 export function StudentCards() {
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		const fetchData = async () => {
+			const res = await api.get("/dashboard");
+			console.log(res);
+		};
+		fetchData();
+	});
 
 	const sectionCardData: StudentDashboardCard<React.ElementType>[] = [
 		{

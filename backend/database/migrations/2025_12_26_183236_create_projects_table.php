@@ -16,8 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug');
             $table->text('description');
-            $table->text('mid_report')->nullable();
-            $table->text('final_report')->nullable();
+            $table->string('mid_report')->nullable();
+            $table->boolean('mid_seminar')->nullable();
+            $table->string('final_report')->nullable();
+            $table->boolean('final_seminar')->nullable();
             $table->enum('status', ['not started', 'active', 'completed', 'under review'])->default('not started');
             $table->timestamp('start_date');
             $table->timestamp('end_date')->nullable();

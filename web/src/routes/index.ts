@@ -6,6 +6,7 @@ import FacultiesPage from "@/pages/faculties/page";
 import PermissionMatrix from "@/pages/permissions/page";
 import AssignedProjects from "@/pages/projects/faculties/assigned-projects";
 import ProjectsPage from "@/pages/projects/page";
+import ProjectDetailPage from "@/pages/projects/project-detail";
 import MyProjects from "@/pages/projects/students/my-projects";
 import MyTasksPage from "@/pages/projects/students/tasks/my-tasks";
 import BrowseProposalsPage from "@/pages/proposals/faculties/browse-proposals";
@@ -73,6 +74,10 @@ export const routes = [
 			{
 				path: "/projects",
 				Component: ProjectsPage,
+			},
+			{
+				path: "/projects/:slug/detail",
+				Component: ProjectDetailPage,
 			},
 			{
 				path: "/projects/my-projects",

@@ -64,6 +64,15 @@ class DashboardController extends Controller
 
     private function getStudentDashboardData()
     {
-        return "Student Role - Managing my proposal and team";
+        $userId = Auth::id();
+        $noOfProposals = Proposal::where('student_id', $userId)
+            ->count();
+        $noOfProjects = Project::where('leader_id', $userId)
+            ->count();
+
+        return response()->json([
+            'noOfProposals' => $noOfProposals,
+            'noOfProjects' => $noOfProjects,
+        ]);
     }
 }

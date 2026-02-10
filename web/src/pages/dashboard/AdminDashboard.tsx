@@ -35,7 +35,7 @@ export default function AdminDashboard() {
 
 			<ProjectProgressTable />
 
-			<Card className="shadow-2xs px-6">
+			<Card className="shadow-2xs px-6 mt-8">
 				<div className="flex flex-row items-center justify-between">
 					<div className="space-y-1">
 						<h3 className="text-xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100">

@@ -42,6 +42,7 @@ export const PROPOSAL_STATUS_COLOR = (status: ProposalStatus): string => {
 export type ProjectStatus =
 	| "not started"
 	| "active"
+	| "pending"
 	| "under review"
 	| "completed";
 
@@ -52,6 +53,8 @@ export const PROJECT_STATUS_COLOR = (status: ProjectStatus): string => {
 		active:
 			"bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800",
 		"under review":
+			"bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800",
+		pending:
 			"bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800",
 		completed:
 			"bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800",

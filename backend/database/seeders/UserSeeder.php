@@ -85,7 +85,7 @@ class UserSeeder extends Seeder
         // $year_sems = ['2019' => 1, '2021' => 2, '2022' => 3, '2023' => 4, '2024' => 5];
         $year_sems = ['2019' => 1];
         $majors = ['cse', 'ece'];
-        $rollNumbers = range(1, 40);
+        $rollNumbers = range(1, 60);
 
         $defaultPassword = Hash::make('password');
         $user_data = [];

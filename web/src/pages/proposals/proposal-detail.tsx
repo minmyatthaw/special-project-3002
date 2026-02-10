@@ -194,7 +194,7 @@ export default function ProposalDetail() {
 													<DocumentTextIcon className="size-7 text-primary-600" />
 												</div>
 												<div>
-													<p className="font-medium ">proposal.pdf</p>
+													<p className="font-medium ">proposal</p>
 													<p className="text-sm  ">
 														Submitted on {proposal.submitted_at}
 													</p>

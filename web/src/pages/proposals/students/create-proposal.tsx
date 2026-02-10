@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLoader, IconSend } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router";
 import * as z from "zod";
 import UnAuthorized from "../../auth/un-authorized";
@@ -114,6 +115,7 @@ export default function CreateProposalPage() {
 			}
 		} catch (error: any) {
 			const validationErrors = error.response?.data?.errors;
+			if (error.response.data.message) toast.error(error.response.data.message);
 
 			if (validationErrors?.title) {
 				setError("title", {
@@ -133,6 +135,7 @@ export default function CreateProposalPage() {
 
 	return (
 		<>
+			<Toaster />
 			<div className="mx-auto max-w-7xl">
 				<div className="space-y-1 mb-5">
 					<h3 className="text-2xl font-semibold">Submit Your Proposal</h3>
