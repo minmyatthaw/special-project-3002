@@ -27,6 +27,18 @@ class ProposalController extends Controller
     public function store(ProposalRequest $request)
     {
         try {
+            $user = Auth::user();
+
+            // Check if user is already in a team or as a leader in proposals
+            if (
+                $user->teamProposals()->exists() ||
+                Proposal::where('leader_id', $user->id)->exists()
+            ) {
+                return response()->json([
+                    'message' => 'You have already submitted a proposal, are part of a team, or are a leader in another proposal.'
+                ], 422);
+            }
+
             $proposal = Proposal::create($request->except('members'));
             if ($request->has('members')) {
                 $proposal->members()->attach($request->members);
@@ -101,7 +113,7 @@ class ProposalController extends Controller
     public function browseProposals()
     {
         try {
-            $proposals = Proposal::where('supervisor_id', 11)->with(['supervisor', 'leader', 'members'])->get();
+            $proposals = Proposal::where('supervisor_id', Auth::id())->with(['supervisor', 'leader', 'members'])->get();
 
             if ($proposals->isEmpty()) {
                 return response()->json([

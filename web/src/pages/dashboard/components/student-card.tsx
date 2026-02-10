@@ -2,63 +2,55 @@ import {
 	IconListCheck,
 	IconListDetails,
 	IconTrendingUp,
-	type Icon,
 } from "@tabler/icons-react";
 
+import api from "@/api/api";
 import {
 	Card,
 	CardDescription,
-	CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import type { StudentDashboardCard } from "@/types/student";
 import { BarChart3 } from "lucide-react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router";
-
-type SectionCardProps = {
-	title: string;
-	cardIcon?: Icon;
-	description: string;
-	footerTop: string;
-	footerBottom: string;
-	pageUrl: string;
-};
 
 export function StudentCards() {
 	const navigate = useNavigate();
 
-	const sectionCardData = [
+	useEffect(() => {
+		const fetchData = async () => {
+			const res = await api.get("/dashboard");
+			console.log(res);
+		};
+		fetchData();
+	});
+
+	const sectionCardData: StudentDashboardCard<React.ElementType>[] = [
 		{
 			title: "2",
 			cardIcon: IconListDetails,
 			description: "Total Projects",
-			footerTop: "Project activity increasing this month",
-			footerBottom: "Overall workload remains stable",
-			pageUrl: "/projects",
+			pageUrl: "/projects/my-projects",
 		},
 		{
 			title: "3",
 			cardIcon: BarChart3,
 			description: "Total Proposals",
-			footerTop: "Project activity increasing this month",
-			footerBottom: "Overall workload remains stable",
-			pageUrl: "/project-proposals",
+			pageUrl: "/project-proposals/my-proposals",
 		},
 		{
 			title: "10",
 			cardIcon: IconListCheck,
 			description: "My Tasks",
-			footerTop: "Project activity increasing this month",
-			footerBottom: "Overall workload remains stable",
-			pageUrl: "/supervisors",
+			pageUrl: "/my-tasks",
 		},
 		{
-			title: "59%",
+			title: "20%",
 			cardIcon: IconTrendingUp,
 			description: "Tasks Completion Rate",
-			footerTop: "Project activity increasing this month",
-			footerBottom: "Overall workload remains stable",
-			pageUrl: "/",
+			pageUrl: "/my-tasks",
 		},
 	];
 
@@ -71,7 +63,7 @@ export function StudentCards() {
 						key={card.description}
 						className="@container/card hover:cursor-pointer">
 						<CardHeader>
-							<CardDescription className="font-medium text-black dark:text-neutral-100 flex items-center justify-between">
+							<CardDescription className="font-medium text-base text-black dark:text-neutral-100 flex items-center justify-between">
 								{card.description}
 								{card.cardIcon && <card.cardIcon size={20} />}
 							</CardDescription>
@@ -79,13 +71,6 @@ export function StudentCards() {
 								{card.title}
 							</CardTitle>
 						</CardHeader>
-						<CardFooter className="flex-col items-start gap-1.5 text-sm">
-							<div className="line-clamp-1 hidden gap-2 font-medium">
-								{card.footerTop}
-								<IconTrendingUp className="hidden size-4" />
-							</div>
-							<div className="text-muted-foreground">{card.footerBottom}</div>
-						</CardFooter>
 					</Card>
 				))}
 		</div>

@@ -3,18 +3,18 @@ import { useHeaderInitializer } from "@/hooks/use-header-initializer";
 import { HasRole } from "@/lib/utils";
 import type { SupervisorData } from "@/types";
 import { useEffect, useState } from "react";
-import UnAuthorized from "../UnAuthorized";
+import UnAuthorized from "../auth/un-authorized";
 import SupervisorsTable from "./components/supervisors-table";
 
 export default function SupervisorsPage() {
-	useHeaderInitializer("MIIT| Supervisors", "Project Supervisors");
-	const [supervisorData, setSupervisorData] = useState<SupervisorData[] | null>(
-		[],
-	);
+	useHeaderInitializer("MIIT| Supervisors", "Assigned Supervisors");
+
+	const [supervisors, setSupervisors] = useState<SupervisorData[]>([]);
 
 	const fetchSupervisors = async () => {
 		const res = await api.get("/supervisors");
-		setSupervisorData(res.data);
+		console.log(res.data);
+		setSupervisors(res.data);
 	};
 
 	useEffect(() => {
@@ -26,13 +26,13 @@ export default function SupervisorsPage() {
 	return (
 		<div className="mx-auto max-w-7xl">
 			<h1 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100">
-				Supervisors List
+				Supervisors
 			</h1>
 			<p className="text-sm text-neutral-500">
 				Browse and manage project supervisors with their assignments and
 				departments.
 			</p>
-			{supervisorData && <SupervisorsTable supervisorData={supervisorData} />}
+			{supervisors && <SupervisorsTable supervisors={supervisors} />}
 		</div>
 	);
 }

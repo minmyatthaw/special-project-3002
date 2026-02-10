@@ -1,58 +1,28 @@
-import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
 import { useHeaderInitializer } from "@/hooks/use-header-initializer";
-import { useTheme } from "@/hooks/use-theme";
-import { IconMoon, IconSun } from "@tabler/icons-react";
+import AccountLogout from "./components/account-logout";
+import ChangePassword from "./components/change-password";
+import ChangeProfile from "./components/change-profile";
+import ChangeTheme from "./components/change-theme";
 
 export default function SettingsPage() {
 	useHeaderInitializer("MIIT | Settings", "Settings");
-	const { theme, toggleTheme } = useTheme();
 
 	return (
-		<div className="space-y-6 max-w-7xl mx-auto">
-			<Card>
-				<CardHeader>
-					<CardTitle className="flex items-center gap-2">
-						{theme === "dark" ? <IconMoon size={20} /> : <IconSun size={20} />}
-						Appearance
-					</CardTitle>
-					<CardDescription>
-						Customize the appearance of the application
-					</CardDescription>
-				</CardHeader>
-				<CardContent>
-					<div className="flex items-center justify-between">
-						<div className="space-y-0.5">
-							<p className="text-sm font-medium">Theme</p>
-							<p className="text-sm text-muted-foreground">
-								Switch between light and dark mode
-							</p>
-						</div>
-						<Button
-							variant="outline"
-							onClick={toggleTheme}
-							className="gap-2">
-							{theme === "dark" ? (
-								<>
-									<IconSun size={16} />
-									Light Mode
-								</>
-							) : (
-								<>
-									<IconMoon size={16} />
-									Dark Mode
-								</>
-							)}
-						</Button>
-					</div>
-				</CardContent>
-			</Card>
+		<div className="mx-auto max-w-7xl space-y-5">
+			<div className="space-y-1">
+				<h1 className="text-2xl font-semibold tracking-tight">Settings</h1>
+				<p className="text-sm text-muted-foreground">
+					Manage your account settings and preferences
+				</p>
+			</div>
+
+			<ChangeProfile />
+
+			<ChangePassword />
+
+			<ChangeTheme />
+
+			<AccountLogout />
 		</div>
 	);
 }

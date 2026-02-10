@@ -1,7 +1,6 @@
 import {
 	IconFileDescription,
 	IconListDetails,
-	IconTrendingUp,
 	IconUsersGroup,
 	type Icon,
 } from "@tabler/icons-react";
@@ -9,7 +8,6 @@ import {
 import {
 	Card,
 	CardDescription,
-	CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
@@ -28,47 +26,35 @@ type SectionCardProps = {
 export function StudentAffairCard() {
 	const navigate = useNavigate();
 
-	/*
-	<div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-6 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
-	*/
-
 	const sectionCardData = [
 		{
-			title: "0",
+			title: 2,
 			cardIcon: IconListDetails,
 			description: "Total Projects",
-			footerTop: "Project activity increasing this month",
-			footerBottom: "Overall workload remains stable",
 			pageUrl: "/projects",
 		},
 		{
-			title: 0,
+			title: 3,
 			cardIcon: IconFileDescription,
 			description: "Tota Proposals",
-			footerTop: "Project activity increasing this month",
-			footerBottom: "Overall workload remains stable",
-			pageUrl: "/project-proposals/submission",
+			pageUrl: "/project-proposals",
 		},
 		{
-			title: "0",
+			title: 12,
 			cardIcon: IconUsersGroup,
-			description: "Total Teams",
-			footerTop: "Project activity increasing this month",
-			footerBottom: "Overall workload remains stable",
+			description: "Active Students",
 			pageUrl: "/supervisors",
 		},
 		{
-			title: "0",
+			title: 10,
 			cardIcon: ShieldCheckIcon,
 			description: "Total Supervisors",
-			footerTop: "Project activity increasing this month",
-			footerBottom: "Overall workload remains stable",
 			pageUrl: "/",
 		},
 	];
 
 	return (
-		<div className="grid grid-cols-1 gap-6 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
+		<div className="grid grid-cols-1 gap-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
 			{sectionCardData.length > 0 &&
 				sectionCardData.map((card) => (
 					<Card
@@ -84,15 +70,6 @@ export function StudentAffairCard() {
 								{card.title}
 							</CardTitle>
 						</CardHeader>
-						<CardFooter className="flex-col hidden items-start gap-1.5 text-sm">
-							<div className="line-clamp-1 hidden gap-2 font-medium">
-								{card.footerTop}
-								<IconTrendingUp className="hidden size-4" />
-							</div>
-							<div className="text-muted-foreground hidden">
-								{card.footerBottom}
-							</div>
-						</CardFooter>
 					</Card>
 				))}
 		</div>

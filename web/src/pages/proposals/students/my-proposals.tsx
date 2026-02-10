@@ -2,7 +2,7 @@ import api from "@/api/api";
 import { useHeaderInitializer } from "@/hooks/use-header-initializer";
 import type { ProjectProposal } from "@/types";
 import { useEffect, useState } from "react";
-import ProposalCard from "../components/proposal-card";
+import ProposalCard from "./components/proposal-card";
 
 export default function MyProposasPage() {
 	useHeaderInitializer("MIIT | My Proposals", "My Proposals");
@@ -13,7 +13,6 @@ export default function MyProposasPage() {
 	const fetchProposals = async () => {
 		try {
 			const res = await api.get("/proposals/my-proposals");
-			console.log(res.data);
 			setProposals(res.data);
 		} catch (error) {
 			console.error("Error fetching proposals:", error);

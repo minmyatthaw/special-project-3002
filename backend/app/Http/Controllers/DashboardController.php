@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\dashboard;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\Proposal;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -18,18 +19,16 @@ class DashboardController extends Controller
         }
 
         if ($user->hasRole('Student Affairs')) {
-            return "Student Affairs Role - Reviewing administrative details";
+            return $this->getStudentAffairsDashboardData();
         }
 
-        if ($user->hasRole('Supervisor')) {
-            return "Supervisor Role - Mentoring and grading active projects";
+        if ($user->hasRole('Supervisor') || $user->hasRole('Faculty')) {
+            return $this->getFacultyDashboardData();
         }
 
         if ($user->hasRole('Student')) {
             return $this->getStudentDashboardData();
         }
-
-        return "No specific role assigned";
     }
 
     private function getICDashboardData()
@@ -37,19 +36,43 @@ class DashboardController extends Controller
         $noOfProposals = Proposal::all()->count();
         $noOfProjects = Project::all()->count();
         $noOfSupervisors = Project::distinct('supervisor_id')->count('supervisor_id');
+        $noOfFaculties = User::where('is_student', false)
+            ->whereDoesntHave('roles', function ($query) {
+                $query->where('name', 'Student Affairs');
+            })
+            ->count();
 
         return response()->json(
             [
                 'noOfProposals' => $noOfProposals,
                 'noOfProjects' => $noOfProjects,
                 'noOfSupervisors' => $noOfSupervisors,
-                'noOfTeams' => 0
+                'noOfFaculties' => $noOfFaculties
             ]
         );
     }
 
-    private function getStudentDashboardData()
+    private function getFacultyDashboardData()
+    {
+        return "Hit";
+    }
+
+    private function getStudentAffairsDashboardData()
     {
         return "Student Role - Managing my proposal and team";
+    }
+
+    private function getStudentDashboardData()
+    {
+        $userId = Auth::id();
+        $noOfProposals = Proposal::where('student_id', $userId)
+            ->count();
+        $noOfProjects = Project::where('leader_id', $userId)
+            ->count();
+
+        return response()->json([
+            'noOfProposals' => $noOfProposals,
+            'noOfProjects' => $noOfProjects,
+        ]);
     }
 }

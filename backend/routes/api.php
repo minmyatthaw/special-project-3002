@@ -2,16 +2,14 @@
 
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\dashboard\DashboardController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\SupervisorController;
-use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
-use App\Http\Resources\ProposalResource;
-use App\Models\Proposal;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::controller(AuthController::class)->group(function () {
@@ -20,6 +18,11 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
+
+    Route::controller(AuthController::class)->group(function () {
+        Route::patch("/update-profile", 'updateProfile');
+        Route::post("/reset-password", 'resetPassword');
+    });
 
     Route::controller(DashboardController::class)->group(function () {
         Route::get("/dashboard", 'index');
@@ -55,15 +58,30 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::controller(ProjectController::class)->group(function () {
         Route::get("/projects", 'index');
+        Route::get("/assigned-projects", 'assignedProjects');
         Route::get("/projects/{project:slug}/detail", 'show');
     });
 
-    Route::controller(TeamController::class)->group(function () {
-        Route::get("/teams", 'index');
-    });
-
     Route::controller(FileController::class)->group(function () {
+        // upload or delete profile document
+        Route::post("/upload-profile-picture", 'uploadProfilePicture');
+        Route::delete("/delete-profile-picture", 'deleteProfilePicture');
+
+        // upload or delete proposal document
         Route::post("/upload-to-s3", 'uploadToS3');
         Route::post("/delete-from-s3", 'deleteFromS3');
     });
+});
+
+Route::get('/test-mail', function () {
+    $project = "Special Project Management System";
+
+    Mail::raw(
+        "Hello, your project proposal titled '$project' has been approved.",
+        function ($message) {
+            $message->to('2019-miit-ece-050@miit.edu.mm')->subject('Project Approval Notification');
+        }
+    );
+
+    return 'Email is sent to Mailtrap Sandbox!';
 });

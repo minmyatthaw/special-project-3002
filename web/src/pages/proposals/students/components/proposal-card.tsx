@@ -33,7 +33,7 @@ export default function ProposalCard({ proposal }: ProposalCardProps) {
 			<Card className="flex flex-col justify-between border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
 				<CardHeader>
 					<div className="flex items-start justify-between gap-x-3">
-						<CardTitle className="text-lg font-semibold line-clamp-2">
+						<CardTitle className="text-lg font-semibold line-clamp-1">
 							{proposal.title}
 						</CardTitle>
 						<Badge
@@ -41,12 +41,12 @@ export default function ProposalCard({ proposal }: ProposalCardProps) {
 							{proposal.status}
 						</Badge>
 					</div>
-					<CardDescription className="flex items-center gap-x-1.5 text-sm text-gray-500">
+					<CardDescription className="flex items-center gap-x-1.5 text-sm">
 						<CalendarIcon className="h-4 w-4" />
 						Submitted on {proposal.submitted_at}
 					</CardDescription>
 				</CardHeader>
-				<CardContent className="text-sm text-gray-700">
+				<CardContent className="text-sm">
 					<p className="line-clamp-2">{proposal.description}</p>
 					<div className="flex items-center gap-x-2 mt-3">
 						<ShieldCheckIcon className="h-5 w-5 text-primary-600" />

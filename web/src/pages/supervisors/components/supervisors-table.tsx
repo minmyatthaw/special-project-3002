@@ -18,7 +18,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { cn, STATUS_COLOR } from "@/lib/utils";
+import { cn, PROJECT_STATUS_COLOR } from "@/lib/utils";
 import type { SupervisorData } from "@/types";
 import { IconDownload, IconRefresh } from "@tabler/icons-react";
 import { Eye, Search, Settings2, ShieldCheckIcon } from "lucide-react";
@@ -26,9 +26,9 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router";
 
 export default function SupervisorsTable({
-	supervisorData,
+	supervisors,
 }: {
-	supervisorData: SupervisorData[];
+	supervisors: SupervisorData[];
 }) {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [currentPage, setCurrentPage] = useState(1);
@@ -40,7 +40,7 @@ export default function SupervisorsTable({
 	const itemsPerPage = 10;
 
 	const filteredUsers = useMemo(() => {
-		const filtered = supervisorData.filter((user) => {
+		const filtered = supervisors.filter((user) => {
 			const matchesSearch =
 				user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
 				user.email.toLowerCase().includes(searchTerm.toLowerCase());
@@ -63,7 +63,7 @@ export default function SupervisorsTable({
 		}
 
 		return filtered;
-	}, [supervisorData, searchTerm, sortColumn, sortDirection]);
+	}, [supervisors, searchTerm, sortColumn, sortDirection]);
 
 	const paginatedSupervisor = useMemo(() => {
 		const start = (currentPage - 1) * itemsPerPage;
@@ -93,7 +93,7 @@ export default function SupervisorsTable({
 
 	return (
 		<>
-			{supervisorData.length === 0 ? (
+			{supervisors.length === 0 ? (
 				<Loading message="supervisors" />
 			) : (
 				<div className="space-y-4 mt-5">
@@ -231,7 +231,9 @@ export default function SupervisorsTable({
 											key={supervisor.id}
 											className="px-3">
 											{visibleColumns.has("name") && (
-												<TableCell>{supervisor.name}</TableCell>
+												<TableCell className="font-semibold">
+													{supervisor.name}
+												</TableCell>
 											)}
 											{visibleColumns.has("email") && (
 												<TableCell>{supervisor.email}</TableCell>
@@ -239,7 +241,7 @@ export default function SupervisorsTable({
 											{visibleColumns.has("role") && (
 												<TableCell>
 													<div className="flex items-center gap-2">
-														<ShieldCheckIcon className="h-4 w-4 text-primary-700" />
+														<ShieldCheckIcon className="h-5 w-5 text-primary-700" />
 														<span className="text-sm">{supervisor.role}</span>
 													</div>
 												</TableCell>
@@ -251,7 +253,7 @@ export default function SupervisorsTable({
 												<TableCell>
 													<Badge
 														className={cn(
-															STATUS_COLOR("active"),
+															PROJECT_STATUS_COLOR("active"),
 															"px-3 font-mono rounded-md capitalize",
 														)}>
 														{supervisor.status}
@@ -277,47 +279,51 @@ export default function SupervisorsTable({
 					</div>
 
 					{/* Pagination */}
-					<div className="flex items-center justify-between">
-						<div className="text-sm text-muted-foreground">
-							Page {currentPage} of {totalPages}
-						</div>
-						<div className="flex gap-2">
-							<Button
-								variant="outline"
-								size="sm"
-								onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-								disabled={currentPage === 1}>
-								Previous
-							</Button>
-							<div className="flex gap-1">
-								{Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-									const pageNum = i + 1;
-									return (
-										<Button
-											key={pageNum}
-											variant={currentPage === pageNum ? "default" : "outline"}
-											size="sm"
-											className={cn(
-												currentPage === pageNum &&
-													"bg-primary-800 hover:cursor-pointer hover:bg-primary-800/80",
-											)}
-											onClick={() => setCurrentPage(pageNum)}>
-											{pageNum}
-										</Button>
-									);
-								})}
+					{totalPages > 1 && (
+						<div className="flex items-center justify-between">
+							<div className="text-sm text-muted-foreground">
+								Page {currentPage} of {totalPages}
 							</div>
-							<Button
-								variant="outline"
-								size="sm"
-								onClick={() =>
-									setCurrentPage(Math.min(totalPages, currentPage + 1))
-								}
-								disabled={currentPage === totalPages}>
-								Next
-							</Button>
+							<div className="flex gap-2">
+								<Button
+									variant="outline"
+									size="sm"
+									onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+									disabled={currentPage === 1}>
+									Previous
+								</Button>
+								<div className="flex gap-1">
+									{Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+										const pageNum = i + 1;
+										return (
+											<Button
+												key={pageNum}
+												variant={
+													currentPage === pageNum ? "default" : "outline"
+												}
+												size="sm"
+												className={cn(
+													currentPage === pageNum &&
+														"bg-primary-800 hover:cursor-pointer hover:bg-primary-800/80",
+												)}
+												onClick={() => setCurrentPage(pageNum)}>
+												{pageNum}
+											</Button>
+										);
+									})}
+								</div>
+								<Button
+									variant="outline"
+									size="sm"
+									onClick={() =>
+										setCurrentPage(Math.min(totalPages, currentPage + 1))
+									}
+									disabled={currentPage === totalPages}>
+									Next
+								</Button>
+							</div>
 						</div>
-					</div>
+					)}
 				</div>
 			)}
 		</>

@@ -5,16 +5,18 @@ import { useHeaderInitializer } from "@/hooks/use-header-initializer";
 import { IconDownload } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { AdminCards } from "./components/admin-cards";
+import ProjectProgressTable from "./components/project-progress-table";
 import ProjectsChart from "./components/projects-chart";
 
 export default function AdminDashboard() {
 	useHeaderInitializer("MIIT | IC Dashboard", "Dashboard");
 
-	const [dashboardData, setDashboardData] = useState<{ noOfProposals: number }>(
-		{
-			noOfProposals: 0,
-		},
-	);
+	const [dashboardData, setDashboardData] = useState<{
+		noOfProposals: number;
+		noOfProjects: number;
+		noOfSupervisors: number;
+		noOfFaculties: number;
+	}>();
 
 	const fetchDashboardData = async () => {
 		const res = await api.get("/dashboard");
@@ -31,7 +33,9 @@ export default function AdminDashboard() {
 				{dashboardData && <AdminCards dashboardData={dashboardData} />}
 			</div>
 
-			<Card className="shadow-2xs px-6">
+			<ProjectProgressTable />
+
+			<Card className="shadow-2xs px-6 mt-8">
 				<div className="flex flex-row items-center justify-between">
 					<div className="space-y-1">
 						<h3 className="text-xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100">

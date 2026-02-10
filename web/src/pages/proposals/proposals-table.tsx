@@ -18,10 +18,18 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { cn, STATUS_COLOR } from "@/lib/utils";
-import type { ProjectProposal } from "@/types";
+import { cn, PROPOSAL_STATUS_COLOR } from "@/lib/utils";
+import type { Project, ProjectProposal } from "@/types";
 import { IconDownload, IconRefresh } from "@tabler/icons-react";
-import { Eye, Loader2, Plus, Search, Settings2, Shield, X } from "lucide-react";
+import {
+	Eye,
+	Loader2,
+	Plus,
+	Search,
+	Settings2,
+	ShieldCheckIcon,
+	X,
+} from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router";
 interface ProposalsTableProp {
@@ -87,8 +95,8 @@ export default function ProposalTable({
 
 		if (sortColumn) {
 			filtered.sort((a, b) => {
-				let aVal: any = a[sortColumn as keyof Project];
-				let bVal: any = b[sortColumn as keyof Project];
+				let aVal: any = a[sortColumn as keyof ProjectProposal];
+				let bVal: any = b[sortColumn as keyof ProjectProposal];
 				if (typeof aVal === "string") {
 					aVal = aVal.toLowerCase();
 					bVal = (bVal as string).toLowerCase();
@@ -209,8 +217,8 @@ export default function ProposalTable({
 														status === "pending"
 															? "bg-yellow-500"
 															: status === "approved"
-															? "bg-green-500"
-															: "bg-red-500"
+																? "bg-green-500"
+																: "bg-red-500"
 													}`}
 												/>
 												<span className="flex-1 text-sm">{status}</span>
@@ -397,7 +405,7 @@ export default function ProposalTable({
 																? project.title.substring(0, 50) + "..."
 																: project.title}
 														</div>
-														<div className="text-xs text-muted-foreground line-clamp-1">
+														<div className="text-xs hidden text-muted-foreground line-clamp-1">
 															{project.description.length > 50
 																? project.description.substring(0, 50) + "..."
 																: project.description}
@@ -408,7 +416,7 @@ export default function ProposalTable({
 											{visibleColumns.has("supervisor") && (
 												<TableCell className="text-sm">
 													<div className="flex items-center gap-x-2">
-														<Shield className="h-4 w-4 text-muted-foreground" />
+														<ShieldCheckIcon className="h-5 w-5 text-primary-700" />
 														{project.supervisor.name}
 													</div>
 												</TableCell>
@@ -441,7 +449,7 @@ export default function ProposalTable({
 												<TableCell>
 													<Badge
 														className={cn(
-															STATUS_COLOR(project.status),
+															PROPOSAL_STATUS_COLOR(project.status),
 															"px-3 font-mono rounded-md capitalize",
 														)}>
 														{project.status}

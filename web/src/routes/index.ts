@@ -1,22 +1,26 @@
 import LoginPage from "@/pages/auth/login";
+import NotFoundPage from "@/pages/auth/not-found";
+import ProtectedRoute from "@/pages/auth/protected-route";
 import DashboardPage from "@/pages/dashboard/dashboard";
 import FacultiesPage from "@/pages/faculties/page";
-import NotFoundPage from "@/pages/NotFound";
 import PermissionMatrix from "@/pages/permissions/page";
+import AssignedProjects from "@/pages/projects/faculties/assigned-projects";
 import ProjectsPage from "@/pages/projects/page";
+import ProjectDetailPage from "@/pages/projects/project-detail";
+import MyProjects from "@/pages/projects/students/my-projects";
+import MyTasksPage from "@/pages/projects/students/tasks/my-tasks";
 import BrowseProposalsPage from "@/pages/proposals/faculties/browse-proposals";
 import ProjectsProposalPage from "@/pages/proposals/page";
 import ProposalDetailPage from "@/pages/proposals/proposal-detail";
 import CreateProposalPage from "@/pages/proposals/students/create-proposal";
 import EditProposalPage from "@/pages/proposals/students/edit-proposal";
 import MyProposasPage from "@/pages/proposals/students/my-proposals";
-import ProtectedRoute from "@/pages/ProtectedRoute";
+import ChangePassword from "@/pages/settings/components/change-password";
+import ChangeProfile from "@/pages/settings/components/change-profile";
+import ChangeTheme from "@/pages/settings/components/change-theme";
 import SettingsPage from "@/pages/settings/page";
 import SupervisorsPage from "@/pages/supervisors/page";
 import SupervisorDetailPage from "@/pages/supervisors/supervisor-detail";
-import TeamsPage from "@/pages/teams/page";
-import MyTasksPage from "@/pages/teams/students/my-tasks";
-import MyTeams from "@/pages/teams/students/my-teams";
 
 export const routes = [
 	{
@@ -64,16 +68,20 @@ export const routes = [
 				Component: SupervisorDetailPage,
 			},
 			{
+				path: "/assigned-projects",
+				Component: AssignedProjects,
+			},
+			{
 				path: "/projects",
 				Component: ProjectsPage,
 			},
 			{
-				path: "/teams",
-				Component: TeamsPage,
+				path: "/projects/:slug/detail",
+				Component: ProjectDetailPage,
 			},
 			{
-				path: "/teams/my-teams",
-				Component: MyTeams,
+				path: "/projects/my-projects",
+				Component: MyProjects,
 			},
 			{
 				path: "/my-tasks",
@@ -82,6 +90,20 @@ export const routes = [
 			{
 				path: "/settings",
 				Component: SettingsPage,
+				children: [
+					{
+						path: "profile",
+						Component: ChangeProfile,
+					},
+					{
+						path: "password",
+						Component: ChangePassword,
+					},
+					{
+						path: "preferences",
+						Component: ChangeTheme,
+					},
+				],
 			},
 		],
 	},

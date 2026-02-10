@@ -1,6 +1,6 @@
 import {
 	IconAdjustmentsAlt,
-	IconDotsVertical,
+	IconLockSquareRounded,
 	IconLogout,
 	IconNotification,
 	IconUserCircle,
@@ -24,7 +24,6 @@ import {
 	useSidebar,
 } from "@/components/ui/sidebar";
 import { useAuthStore } from "@/stores/useAuthStore";
-import { useAuthUserStore } from "@/stores/useAuthUserStore";
 import { useNavigate } from "react-router";
 
 export function NavUser({
@@ -38,8 +37,7 @@ export function NavUser({
 }) {
 	const { isMobile } = useSidebar();
 	const navigate = useNavigate();
-	const setAuthToken = useAuthStore((state) => state.setAuthToken);
-	const setAuthUser = useAuthUserStore((state) => state.setAuthUser);
+	const logout = useAuthStore((state) => state.logout);
 
 	const handleLogout = async () => {
 		try {
@@ -50,12 +48,16 @@ export function NavUser({
 				error,
 			);
 		} finally {
-			setAuthToken("");
-			setAuthUser("");
-			delete api.defaults.headers.common["Authorization"];
+			logout();
 			navigate("/login", { replace: true });
 		}
 	};
+
+	const avatarFallbackName = user.name
+		?.split(" ")
+		.slice(1)
+		.map((name: string) => name[0])
+		.join("");
 
 	return (
 		<SidebarMenu>
@@ -66,19 +68,23 @@ export function NavUser({
 							size="lg"
 							className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground hover:cursor-pointer">
 							<Avatar className="h-10 w-10 rounded-full">
-								<AvatarImage
-									src="/avatar.jpg"
-									alt={user.name}
-								/>
-								<AvatarFallback className="rounded-lg">MT</AvatarFallback>
+								{user.avatar !== null ? (
+									<AvatarImage
+										src={user.avatar}
+										alt={user.name}
+									/>
+								) : (
+									<AvatarFallback className="bg-primary-50 text-primary-700">
+										{avatarFallbackName}
+									</AvatarFallback>
+								)}
 							</Avatar>
-							<div className="grid flex-1 hidden text-left text-sm leading-tight">
+							<div className="flex-1 hidden md:grid text-left text-sm leading-tight">
 								<span className="truncate font-medium">{user.name}</span>
 								<span className="text-muted-foreground truncate text-xs">
 									{user.email}
 								</span>
 							</div>
-							<IconDotsVertical className="ml-auto hidden size-4" />
 						</SidebarMenuButton>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent
@@ -86,14 +92,21 @@ export function NavUser({
 						side={isMobile ? "bottom" : "bottom"}
 						align="end"
 						sideOffset={4}>
-						<DropdownMenuLabel className="p-0 font-normal">
+						<DropdownMenuLabel className="p-0 font-normal md:hidden">
 							<div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
 								<Avatar className="h-10 w-10 hidden rounded-full">
-									<AvatarImage
-										src="/avatar_v1.png"
-										alt={user.name}
-									/>
-									<AvatarFallback className="rounded-lg">MT</AvatarFallback>
+									{user.avatar !== null ? (
+										<>
+											<AvatarImage
+												src={user.avatar}
+												alt={user.name}
+											/>
+										</>
+									) : (
+										<AvatarFallback className="bg-primary-50 text-primary-700">
+											{avatarFallbackName}
+										</AvatarFallback>
+									)}
 								</Avatar>
 								<div className="grid flex-1 text-left text-sm leading-tight">
 									<span className="truncate font-medium">{user.name}</span>
@@ -103,11 +116,15 @@ export function NavUser({
 								</div>
 							</div>
 						</DropdownMenuLabel>
-						<DropdownMenuSeparator />
+						<DropdownMenuSeparator className="md:hidden" />
 						<DropdownMenuGroup>
-							<DropdownMenuItem>
+							<DropdownMenuItem className="hover:cursor-pointer">
 								<IconUserCircle />
-								Account
+								Profile
+							</DropdownMenuItem>
+							<DropdownMenuItem className="hover:cursor-pointer">
+								<IconLockSquareRounded />
+								Security
 							</DropdownMenuItem>
 							<DropdownMenuItem
 								onClick={() => navigate("/settings")}
